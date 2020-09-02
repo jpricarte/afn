@@ -95,3 +95,39 @@ As transições no interpretador modelo só apontam para estados pré declarados
 
 Ao usar uma string nas transições, cada caracter da string será gerará uma nova transição
 para o mesmo estado.
+
+## Interpretador Modelo
+
+O interpretador modelo foi criado em C++. Ele foi inscrito de forma que satisfaça todas
+as especificações acima. Porém, ele atualmente verifica *apenas*
+Autômatos Finitos Deterministicos. Porém, a linguagem aceita outros autômatos também.
+
+### Biblioteca
+A biblioteca Automaton contém as classes criadas para gerar o interpretador.
+O arquivo test_file_pt.cpp contém um teste simples para vê-lo funcionando.
+
+## Exemplos
+
+A pasta Examples contém o arquivo teste_file_pt.cpp pré-compilado, e dois
+autômatos.
+
+### automaton.afn
+
+Autômato para linguagem:
+
+```
+sigma* = { w | w contenha a sub-palavra 'ab' }
+```
+
+### hour_checker.afn
+
+Autômato para linguagem:
+
+```
+sigma* = { w | w está é um horário valido num dos formatos descritos abaixo }
+```
+
+- **HH**:**MM**
+- **HH**h**MM**
+- **HH**H**MM**
+- **HH**-**MM**
