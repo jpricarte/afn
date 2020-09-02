@@ -1,0 +1,87 @@
+MODELO DE AUTOMATO
+
+EXTENSÃO
+
+Usaremos a extensão .afn (automaton friendly notation) para os arquivos de texto dos automatos
+
+DECLARAÇÃO DE ESCOPO
+
+O automato começa após uma linha onde está escrito apenas start_automaton
+e termina em uma linha escrito end_automaton.
+
+
+COMANDOS
+
+Para declarar um estado, você usa o comando
+    $ nome_estado : tipo
+
+tipos de estados:
+    initial
+    final
+    initial,final
+    none
+
+Para declarar uma transição, você usa o comando
+    - char (ou string) : novo_estado
+OBS: o caracter ':' não pode ser utilizado em string
+
+Para comentar dentro do escopo, usamos o comando
+    # comentario
+
+Apenas o primeiro estado será declarado como inicial. Se declarar mais de um como
+inicial, ele será automáticamente salvo como tipo none. Estados que não estejam
+nessa lista serão salvos como none.
+
+O tipo 'initial,final' cria um estado inicial com a flag de fim acionada.
+
+Para declarar transições após a declaração, você pode declarar novas transições usando:
+& nome_estado
+    - char (ou string) : novo_estado
+    [...]
+
+
+SINTAXE
+
+O interpretador em C++ lê apenas caracteres ASCII. Os comentários não são lidos e
+teoricamente, podem ter outros caracteres, porém não recomendo o uso desses.
+
+Os caracteres de transição podem ser todos os caracteres visiveis - { ' ' }
+
+Cada linha deve ter SOMENTE UM comando, comentarios NÃO podem ser escritos
+na mesma linha que outros comandos
+
+Identações são opcionais e ajudam a modelar o automato, mas ela será ignorada na leitura
+
+Tudo que estiver escrito fora do escopo definidos entre os comandos de inicio e fim
+são ignorados na leitura e considerados comentarios.
+
+Para evitar erros de ponteiros, todos os estados devem ser declarados antes de
+declarar as transições. As transições só apontam para estados pré declarados.
+
+Ao usar uma string nas transições, cada caracter será uma transição para o mesmo estado
+
+
+EXEMPLO DE AUTOMATO
+
+abaixo, temos um modelo ideal de automato
+
+start_automaton
+
+# Declaração de Estados
+
+$q0:initial,final
+$q1:none
+$q2:final
+
+# Declaração de Transições
+
+&q0
+    -a:q1
+    -b:q0
+&q1
+    -a:q0
+    -b:q2
+&q2
+    -ab:q2
+
+end_automaton

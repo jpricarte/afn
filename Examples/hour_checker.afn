@@ -1,0 +1,33 @@
+Automato que checa se um dado horário está na forma
+HH:MM (':' também pode ser 'h', 'H'  ou '-').
+
+Os horários são na forma 24h (00:00 - 23:59)
+
+start_automaton
+
+#Declaring States
+$q0:initial
+$q1:none
+$q2:none
+$q3:none
+$q4:none
+$q5:none
+$q6:final
+
+#Declaring Transitions
+&q0
+    -01:q1
+    -2:q2
+&q1
+    -0123456789:q3
+&q2
+    -0123:q3
+&q3
+    -::q4
+    -hH-:q4
+&q4
+    -012345:q5
+&q5
+    -0123456789:q6
+
+end_automaton

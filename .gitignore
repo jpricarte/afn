@@ -1,0 +1,4 @@
+# Ignoring directories
+.idea
+cmake-build-debug
+old_classes
