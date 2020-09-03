@@ -116,7 +116,7 @@ autômatos.
 Autômato para linguagem:
 
 ```
-sigma* = { w | w contenha a sub-palavra 'ab' }
+L = { w | w contenha a sub-palavra 'ab' }
 ```
 
 ### hour_checker.afn
@@ -124,7 +124,7 @@ sigma* = { w | w contenha a sub-palavra 'ab' }
 Autômato para linguagem:
 
 ```
-sigma* = { w | w está é um horário valido num dos formatos descritos abaixo }
+L = { w | w está é um horário valido num dos formatos descritos abaixo }
 ```
 
 - **HH**:**MM**
