@@ -1,0 +1,28 @@
+Automato para a linguagem
+L = { w | w contenha a subpalavra aa ou bb }
+
+Criado para testar a interpretacao de automatos nao deterministicos
+
+start_automaton
+
+# Declaração de Estados
+
+$q0:initial
+$q1:none
+$q2:none
+$qf:final
+
+# Declaração de Transições
+
+&q0
+    -ab:q0
+    -a:q1
+    -b:q2
+&q1
+    -a:qf
+&q2
+    -b:qf
+&qf
+    -ab:qf
+
+end_automaton

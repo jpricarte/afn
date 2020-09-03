@@ -1,3 +1,6 @@
+Automato para a linguagem
+L = { w | w contenha a sub-palavra 'ab' ou # par de 'a' ou sufixo 'b' apos par de 'aa' }
+
 start_automaton
 
 # Declaração de Estados

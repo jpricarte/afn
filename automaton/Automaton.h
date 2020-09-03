@@ -36,9 +36,12 @@ public:
     State* find_state(std::string state_name);
 
     bool is_final(State* state);
+    std::vector<State*> get_states(State* actual_state, char c);
+
     bool verify_word(std::string word);
     bool verify_word(std::string word, State* actual_state);
 
+    /// Getters n Setters
     const std::string &getAlphabet() const;
     void setAlphabet(const std::string &alphabet);
 

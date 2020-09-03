@@ -100,7 +100,10 @@ para o mesmo estado.
 
 O interpretador modelo foi criado em C++. Ele foi inscrito de forma que satisfaça todas
 as especificações acima. Porém, ele atualmente verifica *apenas*
-Autômatos Finitos Deterministicos. Porém, a linguagem aceita outros autômatos também.
+Autômatos Finitos.
+
+A linguagem, por estar em fase de desenvolvimento, tem garantia de funcionamento para
+*autômatos finitos*. nas próximas versões suportarão outros tipos de autômatos.
 
 ### Biblioteca
 A biblioteca Automaton contém as classes criadas para gerar o interpretador.
@@ -116,8 +119,10 @@ autômatos.
 Autômato para linguagem:
 
 ```
-L = { w | w contenha a sub-palavra 'ab' }
+L = { w | w contenha a sub-palavra 'ab' ou # par de 'a' ou sufixo 'b' apos par de 'aa' }
 ```
+
+Criado para demonstrar o estado `initial,final` e 2 estados finais
 
 ### hour_checker.afn
 
@@ -131,3 +136,11 @@ L = { w | w está é um horário valido num dos formatos descritos abaixo }
 - **HH**h**MM**
 - **HH**H**MM**
 - **HH**-**MM**
+
+### automaton.afn
+
+Autômato Finito Não Deterministico para linguagem:
+
+```
+L = { w | w contenha a subpalavra aa ou bb }
+```

@@ -82,41 +82,40 @@ State* Automaton::find_state(string state_name) {
     return nullptr;
 }
 
-bool Automaton::verify_word(string word) {
-    State* actual_state = this->first_state;
+bool Automaton::verify_word(string word){
+    return verify_word(word, this->first_state);
+}
+
+bool Automaton::verify_word(std::string word, State* actual_state){
     if (word.empty()) {
         if (this->is_final(actual_state))
             return true;
         else
             return false;
     }
-    else {
-        char first_char = word[0];
-        string tail_word = word.substr(1);
-        State* next_state = actual_state->find_next(first_char);
-        if (next_state != nullptr)
-            return this->verify_word(tail_word, next_state);
-        return false;
-    }
+
+    char first_char = word[0];
+    string tail_word = word.substr(1);
+    vector<State*> next_states = Automaton::get_states(actual_state, first_char);
+
+    if (!next_states.empty())
+        for (auto state : next_states) {
+            if (verify_word(tail_word, state))
+                return true;
+        }
+    return false;
 }
 
-bool Automaton::verify_word(string word, State* actual_state) {
-    if (word.empty()) {
-        if (this->is_final(actual_state))
-            return true;
-        else
-            return false;
-    }
-    else {
-        char first_char = word[0];
-        string tail_word = word.substr(1);
-        State* next_state = actual_state->find_next(first_char);
-        if (next_state != nullptr)
-            return this->verify_word(tail_word, next_state);
-        return false;
-    }
-}
+vector<State *> Automaton::get_states(State *actual_state, char c) {
+    vector<State*> next_states = {};
 
+    for (auto transition : actual_state->transitions) {
+        if (get<0>(transition) == c)
+            next_states.push_back(get<1>(transition));
+    }
+
+    return next_states;
+}
 
 /// Getters n Setters
 

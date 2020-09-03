@@ -17,7 +17,7 @@ int main() {
         cout << endl << "Palavra para verificar > ";
         cin >> word;
 
-        if ( automata->verify_word(word) )
+        if (automata->verify_word(word) )
             cout << endl << "Palavra aprovada" << endl;
         else
             cout << endl << "Palavra reprovada" << endl;
