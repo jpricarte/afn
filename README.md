@@ -137,7 +137,7 @@ L = { w | w está é um horário valido num dos formatos descritos abaixo }
 - **HH**H**MM**
 - **HH**-**MM**
 
-### automaton.afn
+### non_det.afn
 
 Autômato Finito Não Deterministico para linguagem:
 
