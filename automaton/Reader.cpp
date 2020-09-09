@@ -12,7 +12,9 @@ using namespace std;
 Automaton *Reader::read_automata(std::string file_name) {
 
     //File pointer n line string
-    ifstream File(file_name);
+    ifstream file (file_name);
+    if (!file.is_open())
+        return nullptr;
     string line;
 
     //Automaton Created, auxiliaries pointer n StateType.
@@ -26,7 +28,7 @@ Automaton *Reader::read_automata(std::string file_name) {
     //Flag to control begin of automata
     bool inScope = false;
 
-    while (getline(File, line)) {
+    while (getline(file, line)) {
 
         // Remove unnecessary spaces
         string::iterator end_pos = remove(line.begin(), line.end(), ' ');
@@ -64,7 +66,7 @@ Automaton *Reader::read_automata(std::string file_name) {
 
     }
 
-    File.close();
+    file.close();
     return automaton;
 }
 
