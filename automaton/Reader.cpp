@@ -1,5 +1,5 @@
 //
-// Created by jpricarte on 02/09/2020.
+// Created by Jordi Pujol Ricarte on 02/09/2020.
 //
 
 #include "Reader.h"
@@ -15,15 +15,16 @@ Automaton *Reader::read_automata(std::string file_name) {
     ifstream File(file_name);
     string line;
 
-    //Automaton Created n auxiliar pointers
-    Automaton* automaton = new Automaton();
+    //Automaton Created, auxiliaries pointer n StateType.
+    auto* automaton = new Automaton();
     State* aux_state = nullptr;
+    StateType state_type;
 
-    //Auxiliar vars
-    string state_name = "";
+    //Auxiliary vars
+    string state_name;
 
     //Flag to control begin of automata
-    bool isAutomaton = false;
+    bool inScope = false;
 
     while (getline(File, line)) {
 
@@ -33,52 +34,34 @@ Automaton *Reader::read_automata(std::string file_name) {
         end_pos = remove(line.begin(), line.end(), '\t');
         line.erase(end_pos, line.end());
 
-        // Don't read lines before start_automaton
-        if (line == "start_automaton") {
-            isAutomaton = true;
-            continue;
-        }
-        else if (!isAutomaton)
-            continue;
+        // Check if the line is start/end_automaton
+        inScope = check_scope(line, inScope);
 
-        //Jump Comments (Just in first char)]
-        if (line[0] == '#')
+        // If is out of scope of automaton, go to next line
+        if (!inScope)
             continue;
 
-        //State Declaration
-        else if (line[0] == '$') {
-            state_name = Reader::get_name(line);
-            StateType state_type = Reader::get_type(line);
+        switch (line[0]) {
+            case '$':
+                state_name = Reader::get_name(line);
+                state_type = Reader::get_type(line);
+                aux_state = new State(state_name);
+                automaton->add_state(aux_state, state_type);
+                break;
 
-            aux_state = new State(state_name);
-            automaton->add_state(aux_state, state_type);
+            case '&':
+                state_name = line.substr(1);
+                aux_state = automaton->find_state(state_name);
+                break;
+
+            case '-':
+                read_transition(line, automaton, aux_state);
+                break;
+
+            default:
+                break;
         }
 
-        //Set state for next lines
-        else if (line[0] == '&') {
-            state_name = line.substr(1);
-            aux_state = automaton->find_state(state_name);
-        }
-
-        else if (line[0] == '-') {
-            // Isolate transition symbols
-            size_t end_symbols = line.find(":");
-            string transition_symbols = line.substr(1, end_symbols);
-
-            // Arrival state
-            State* arrival_state = automaton->find_state(line.substr(end_symbols+1));
-
-            if (arrival_state != nullptr) {
-                for (char transition_symbol : transition_symbols) {
-                    aux_state->new_transition(transition_symbol, arrival_state);
-                }
-            }
-        }
-
-        // End file automaton
-        if (line=="end_automaton") {
-            break;
-        }
     }
 
     File.close();
@@ -87,7 +70,7 @@ Automaton *Reader::read_automata(std::string file_name) {
 
 
 string Reader::get_name(std::string line) {
-    string return_string="";
+    string return_string;
 
     //Using while instead foreach 'cause then we can use $ in the state name
     int i = 1;
@@ -101,7 +84,7 @@ string Reader::get_name(std::string line) {
 }
 
 
-StateType Reader::get_type(std::string line) {
+StateType Reader::get_type(const std::string& line) {
 
     StateType state_type;
 
@@ -115,4 +98,30 @@ StateType Reader::get_type(std::string line) {
         state_type = StateType::NONE;
 
     return state_type;
+}
+
+void Reader::read_transition(const string& line, Automaton* automaton, State* aux_state) {
+    size_t end_symbols = line.find(':');
+    string transition_symbols = line.substr(1, end_symbols);
+
+    // Arrival state
+    State* arrival_state = automaton->find_state(line.substr(end_symbols+1));
+
+    if (arrival_state != nullptr) {
+        for (char transition_symbol : transition_symbols) {
+            aux_state->new_transition(transition_symbol, arrival_state);
+        }
+    }
+}
+
+bool Reader::check_scope(const std::string& line, bool inScope) {
+    if (line == "start_automaton") {
+        return true;
+    }
+
+    if (line=="end_automaton") {
+        return false;
+    }
+
+    else return inScope;
 }

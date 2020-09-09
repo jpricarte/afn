@@ -1,15 +1,16 @@
 //
-// Created by jpricarte on 02/09/2020.
+// Created by Jordi Pujol Ricarte on 02/09/2020.
 //
 
 #include "Automaton.h"
 #include <iostream>
 #include <tuple>
+#include <utility>
 
 using namespace std;
 
 State::State(std::string state_name) {
-    this->state_name = state_name;
+    this->state_name = move(state_name);
     this->transitions = {};
 }
 

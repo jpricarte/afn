@@ -14,7 +14,11 @@ public:
 
     static std::string get_name(std::string line);
 
-    static StateType get_type(std::string line);
+    static StateType get_type(const std::string& line);
+
+    static void read_transition(const std::string& line, Automaton* automaton, State* aux_state);
+
+    static bool check_scope(const std::string& line, bool inScope);
 };
 
 

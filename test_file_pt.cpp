@@ -4,12 +4,16 @@
 #include "automaton/Reader.h"
 
 using namespace std;
-int main() {
+int main(int argc, char** argv) {
 
     string file_name, word, question;
 
-    cout << "Arquivo do automato > ";
-    cin >> file_name;
+    if (argc != 2) {
+        cout << "Arquivo do automato > ";
+        cin >> file_name;
+    }
+    else file_name = argv[1];
+
     Automaton* automata = Reader::read_automata(file_name);
 
     bool continue_running = true;
